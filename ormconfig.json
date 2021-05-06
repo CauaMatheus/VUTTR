@@ -1,0 +1,16 @@
+{
+  "type": "postgres",
+  "host": "database",
+  "username": "admin",
+  "password": "password",
+  "database": "vuttr",
+  "entities": [
+    "./dist/**/entities/*.entity.js"
+  ],
+  "migrations": [
+    "./dist/database/migrations/*.js"
+  ],
+  "cli": {
+    "migrationsDir": "./src/database/migrations"
+  }
+}
