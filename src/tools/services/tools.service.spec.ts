@@ -16,6 +16,7 @@ describe('ToolsService', () => {
     createQueryBuilder: jest.fn(),
     where: jest.fn(),
     getMany: jest.fn(),
+    delete: jest.fn(),
   };
 
   beforeAll(async () => {
@@ -40,6 +41,7 @@ describe('ToolsService', () => {
     mockRepository.createQueryBuilder.mockReset();
     mockRepository.where.mockReset();
     mockRepository.getMany.mockReset();
+    mockRepository.delete.mockReset();
   });
 
   it('should be defined', () => {
@@ -120,6 +122,25 @@ describe('ToolsService', () => {
       expect(listedTools.length).toBe(1);
       expect(mockRepository.getMany).toBeCalledTimes(1);
       expect(mockRepository.find).not.toBeCalled();
+    });
+  });
+
+  describe('Delete tool', () => {
+    it('should be able to delete a tool', async () => {
+      mockRepository.delete.mockReturnValue(true);
+
+      const result = await service.delete('Example ID');
+      expect(result).not.toBeDefined();
+    });
+
+    it('should return exception when tool was not deleted', async () => {
+      mockRepository.delete.mockReturnValue(false);
+      await service.delete('Example ID').catch((err) => {
+        expect(err).toBeInstanceOf(InternalServerErrorException);
+        expect(err).toMatchObject({
+          message: 'Internal server error when trying to delete this tool',
+        });
+      });
     });
   });
 });

@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ICreateToolDTO } from '../dtos/ICreateToolDTO';
+import { IDeleteToolDTO } from '../dtos/IDeleteToolDTO';
 import { ToolsService } from '../services/tools.service';
 
 @Controller('tools')
@@ -14,5 +23,10 @@ export class ToolsController {
   @Get()
   async list(@Query('tag') tag: string) {
     return await this.toolsService.list({ tag });
+  }
+
+  @Delete(':id')
+  async delete(@Param() { id }: IDeleteToolDTO) {
+    return await this.toolsService.delete(id);
   }
 }

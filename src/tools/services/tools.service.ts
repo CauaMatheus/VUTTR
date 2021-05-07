@@ -55,4 +55,13 @@ export class ToolsService {
 
     return await this.toolsRepository.find();
   }
+
+  async delete(id: string): Promise<void> {
+    const wasDeleted = await this.toolsRepository.delete({ id });
+    if (!wasDeleted) {
+      throw new InternalServerErrorException(
+        'Internal server error when trying to delete this tool',
+      );
+    }
+  }
 }
