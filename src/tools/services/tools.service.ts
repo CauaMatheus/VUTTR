@@ -16,18 +16,28 @@ export class ToolsService {
     private toolsRepository: Repository<Tool>,
   ) {}
 
-  async create({ title, link, description }: ICreateToolDTO): Promise<Tool> {
+  async create({
+    title,
+    link,
+    description,
+    tags = [],
+  }: ICreateToolDTO): Promise<Tool> {
     const toolAlreadyExist = await this.toolsRepository.findOne({ title });
     if (toolAlreadyExist) {
       throw new HttpException('Tool already Exist', HttpStatus.BAD_REQUEST);
     }
 
-    const tool = this.toolsRepository.create({ title, link, description });
+    const tool = this.toolsRepository.create({
+      title,
+      link,
+      description,
+      tags,
+    });
 
     const savedTool = await this.toolsRepository.save(tool);
     if (!savedTool) {
       throw new InternalServerErrorException(
-        'Internal server error when trying to create this user',
+        'Internal server error when trying to create this tool',
       );
     }
     return savedTool;

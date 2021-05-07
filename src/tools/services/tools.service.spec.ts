@@ -68,7 +68,7 @@ describe('ToolsService', () => {
       expect(mockRepository.save).not.toBeCalled();
     });
 
-    it('should return exception when user was not created', async () => {
+    it('should return exception when tool was not created', async () => {
       const tool = TestUtil.getValidTool();
       mockRepository.findOne.mockReturnValue(null);
       mockRepository.create.mockReturnValue(tool);
@@ -77,7 +77,7 @@ describe('ToolsService', () => {
       await service.create(tool).catch((exception) => {
         expect(exception).toBeInstanceOf(InternalServerErrorException);
         expect(exception).toMatchObject({
-          message: 'Internal server error when trying to create this user',
+          message: 'Internal server error when trying to create this tool',
         });
       });
       expect(mockRepository.findOne).toBeCalledTimes(1);

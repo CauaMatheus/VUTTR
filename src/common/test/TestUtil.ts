@@ -7,6 +7,7 @@ export default class TestUtil {
       title: 'Title Example',
       link: 'http://example.com',
       description: 'Description Example',
+      tags: ['tag example', 'another tag'],
     });
     return tool;
   }

@@ -15,6 +15,9 @@ export class Tool {
   @Column()
   description: string;
 
+  @Column('varchar')
+  tags: string[];
+
   constructor() {
     if (!this.id) {
       this.id = uuid();

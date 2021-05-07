@@ -7,7 +7,7 @@ export class ToolsController {
   constructor(private toolsService: ToolsService) {}
 
   @Post()
-  async create(@Body() { title, link, description }: ICreateToolDTO) {
-    return await this.toolsService.create({ title, link, description });
+  async create(@Body() { title, link, description, tags }: ICreateToolDTO) {
+    return await this.toolsService.create({ title, link, description, tags });
   }
 }

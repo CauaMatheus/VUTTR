@@ -23,6 +23,12 @@ export class CreateTools1620326296707 implements MigrationInterface {
             name: 'description',
             type: 'varchar',
           },
+          {
+            name: 'tags',
+            type: 'varchar',
+            isArray: true,
+            isNullable: true,
+          },
         ],
       }),
     );
