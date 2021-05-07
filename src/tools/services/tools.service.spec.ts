@@ -12,6 +12,10 @@ describe('ToolsService', () => {
     findOne: jest.fn(),
     create: jest.fn(),
     save: jest.fn(),
+    find: jest.fn(),
+    createQueryBuilder: jest.fn(),
+    where: jest.fn(),
+    getMany: jest.fn(),
   };
 
   beforeAll(async () => {
@@ -32,6 +36,10 @@ describe('ToolsService', () => {
     mockRepository.findOne.mockReset();
     mockRepository.create.mockReset();
     mockRepository.save.mockReset();
+    mockRepository.find.mockReset();
+    mockRepository.createQueryBuilder.mockReset();
+    mockRepository.where.mockReset();
+    mockRepository.getMany.mockReset();
   });
 
   it('should be defined', () => {
@@ -83,6 +91,35 @@ describe('ToolsService', () => {
       expect(mockRepository.findOne).toBeCalledTimes(1);
       expect(mockRepository.create).toBeCalledTimes(1);
       expect(mockRepository.save).toBeCalledTimes(1);
+    });
+  });
+
+  describe('List Tool', () => {
+    it('should be able to list all tools', async () => {
+      const tool = TestUtil.getValidTool();
+      mockRepository.find.mockReturnValue([tool, tool]);
+
+      const listedTools = await service.list({ tag: undefined });
+
+      expect(listedTools.length).toBe(2);
+      expect(mockRepository.find).toBeCalledTimes(1);
+      expect(mockRepository.getMany).not.toBeCalled();
+    });
+
+    it('should be able to list tools filtered by tags', async () => {
+      const tool = TestUtil.getValidTool();
+      mockRepository.getMany.mockReturnValue([tool]);
+      mockRepository.find.mockReturnValue([tool, tool]);
+
+      mockRepository.where.mockReturnValue({ getMany: mockRepository.getMany });
+      mockRepository.createQueryBuilder.mockReturnValue({
+        where: mockRepository.where,
+      });
+
+      const listedTools = await service.list({ tag: 'Example' });
+      expect(listedTools.length).toBe(1);
+      expect(mockRepository.getMany).toBeCalledTimes(1);
+      expect(mockRepository.find).not.toBeCalled();
     });
   });
 });

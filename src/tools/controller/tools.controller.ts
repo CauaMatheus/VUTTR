@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ICreateToolDTO } from '../dtos/ICreateToolDTO';
 import { ToolsService } from '../services/tools.service';
 
@@ -9,5 +9,10 @@ export class ToolsController {
   @Post()
   async create(@Body() { title, link, description, tags }: ICreateToolDTO) {
     return await this.toolsService.create({ title, link, description, tags });
+  }
+
+  @Get()
+  async list(@Query('tag') tag: string) {
+    return await this.toolsService.list({ tag });
   }
 }

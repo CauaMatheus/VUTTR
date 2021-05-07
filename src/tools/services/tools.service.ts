@@ -42,4 +42,17 @@ export class ToolsService {
     }
     return savedTool;
   }
+
+  async list({ tag }: { tag: string }): Promise<Tool[]> {
+    if (tag) {
+      const tagsArray = tag.split(',');
+      const tools = await this.toolsRepository
+        .createQueryBuilder('tools')
+        .where('tools.tags @> :tagsArray', { tagsArray })
+        .getMany();
+      return tools;
+    }
+
+    return await this.toolsRepository.find();
+  }
 }
