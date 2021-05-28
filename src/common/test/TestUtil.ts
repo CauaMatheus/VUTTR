@@ -1,4 +1,4 @@
-import { User } from '../../users/entities/user.entity';
+import { User } from '../../accounts/entities/user.entity';
 import { Tool } from '../../tools/entities/tool.entity';
 
 export default class TestUtil {
